@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "sass": "^1.54.5"
+  },
+  "name": "carousel3d",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css --style compressed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamM-64/Carousel3D.git"
+  },
+  "author": "Samantha Morata",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SamM-64/Carousel3D/issues"
+  },
+  "homepage": "https://github.com/SamM-64/Carousel3D#readme"
+}

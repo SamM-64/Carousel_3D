@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+
+  .loader {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: hsla(0,0%,100%,.9);
+    animation: load 01s;
+    animation-delay: 1.75s;
+    animation-fill-mode: both;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  
+    &__jeton {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+    
+      
+      
+    }
+    &__jeton_img {
+      animation: rotate  3s forwards alternate  ;
+      transition-property: transform;
+      width: 8rem;
+      
+    
+      
+      
+    }
+    &__text {
+        margin: 5px auto;
+        color: $color-primary;    
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: $font;
+        text-shadow: -2px 2px 4px rgba(0, 0, 0, 0.5),
+                2px -2px 0 rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  @keyframes load{
+    100% {
+      opacity: 0;
+      z-index: -10;
+    }
+  } 
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0);
+    }
+  
+    to {
+      transform: rotate(-360deg);
+      opacity: 0.3;
+      visibility: hidden;
+        
+    }
+  }
+
+
+  
+

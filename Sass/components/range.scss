@@ -1,0 +1,25 @@
+/* Curseur */
+
+label{
+    color:antiquewhite;
+  }
+  /* la zone de déplacement */
+  input[type=range].cells-range { 
+    -webkit-appearance: none; 
+    height: 1em;
+    background: black;
+    background-image: linear-gradient(to bottom, #FFF, #999, #FFF);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 35%;
+    cursor: pointer;
+  }
+  /* le curseur */
+  input[type=range].cells-range::-webkit-slider-thumb{
+    -webkit-appearance: none; 
+    width: 2em;
+    padding: 0.25em;                                            
+    border-radius: 50%;
+    box-shadow: 0 0 .5em black inset;
+  
+  }
