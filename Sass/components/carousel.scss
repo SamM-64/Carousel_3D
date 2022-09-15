@@ -19,6 +19,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
+    -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, #0004);
     
   }
   
@@ -29,7 +30,7 @@ img {
     transform-style: preserve-3d;
     transform: perspective(1000px);
     transition: 1s ease-in-out;
-    -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, #0004);
+   
   }
   
   .carrousel {
