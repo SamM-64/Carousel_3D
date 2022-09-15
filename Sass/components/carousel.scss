@@ -1,20 +1,4 @@
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #1d1e22;
-}
-
-img {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
   .container {
     display: flex;
     justify-content: center;
@@ -101,19 +85,5 @@ img {
     --heightItem: 200px;
     }
   }
-
-
-
-
-
-.carousel-options {
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    color: antiquewhite;
-    margin-top: 3rem;
-
-
-}
 
 
