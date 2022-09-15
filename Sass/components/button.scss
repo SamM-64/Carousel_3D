@@ -1,18 +1,14 @@
   /* Bouton */
   .carousel_btn{
     text-align: center;
-    margin-top: 13rem;
-    .refresh_btn{
-      margin-right: 3rem;
-    }
+    display: flex;
+    justify-content: space-around;
     button {
       border-spacing: 5px;
       border: 0.25rem rgb(119,136,153) inset;
       border-radius: 0.6rem;
       cursor: pointer;
       text-transform: uppercase;
-      outline: none;
-      overflow: hidden;
       position: relative;
       color:#7f7f7f;
       font-size: 0.9rem;

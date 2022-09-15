@@ -2,8 +2,6 @@
 
 
   .loader {
-    display: flex;
-    justify-content: center;
     position: fixed;
     height: 100%;
     width: 100%;
@@ -24,7 +22,7 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      justify-content: space-between;
+      
     
       
       
@@ -32,14 +30,15 @@
     &__jeton_img {
       animation: rotate  3s forwards alternate  ;
       transition-property: transform;
-      width: 8rem;
+      width: 6rem;
+      margin: 2rem;
       
     
       
       
     }
     &__text {
-        margin: 5px auto;
+      margin: 4rem;
         color: $color-primary;    
         text-transform: uppercase;
         letter-spacing: 1px;

@@ -1,56 +1,129 @@
-let carousel = document.querySelector(".carousel");
-let cells = carousel.querySelectorAll(".carousel__cell");
-let cellCount; // cellCount set from cells-range input value
-let selectedIndex = 0;
-let cellWidth = carousel.offsetWidth;
-let cellHeight = carousel.offsetHeight;
-let isHorizontal = true;
-let rotateFn = isHorizontal ? "rotateY" : "rotateX";
-let radius, theta;
-const gap = 40; // Space between each item
-// console.log( cellWidth, cellHeight );
+const container = document.querySelector(".container");
+const containerCarrousel = container.querySelector(".container-carrousel");
+const carrousel = container.querySelector(".carrousel");
+const carrouselItems = carrousel.querySelectorAll(".carrousel-item");
 
-function rotateCarousel() {
-  const angle = theta * selectedIndex * -1;
-  carousel.style.transform =
-    "translateZ(" + -radius + "px) " + rotateFn + "(" + angle + "deg)";
-}
+// Iniciamos variables que cambiaran su estado.
+let isMouseDown = false;
+let currentMousePos = 0;
+let lastMousePos = 0;
+let lastMoveTo = 0;
+let moveTo = 0;
 
-const prevButton = document.querySelector(".previous-button");
-prevButton.addEventListener("click", function () {
-  selectedIndex--;
-  rotateCarousel();
-});
+const createCarrousel = () => {
+  const carrouselProps = onResize();
+  const length = carrouselItems.length; // Longitud del array
+  const degress = 360 / length; // Grados por cada item
+  const gap = 40; // Espacio entre cada item
+  const tz = distanceZ(carrouselProps.w, length, gap);
 
-const nextButton = document.querySelector(".next-button");
-nextButton.addEventListener("click", function () {
-  selectedIndex++;
-  rotateCarousel();
-});
+  const fov = calculateFov(carrouselProps);
+  const height = calculateHeight(tz);
 
-const cellsRange = document.querySelector(".cells-range");
-cellsRange.addEventListener("change", changeCarousel);
-cellsRange.addEventListener("input", changeCarousel);
+  container.style.width = tz * 2 + gap * length + "px";
+  container.style.height = height + "px";
 
-function changeCarousel() {
-  cellCount = cellsRange.value;
-  theta = 360 / cellCount;
-  const cellSize = isHorizontal ? cellWidth : cellHeight;
-  radius = Math.round(cellSize / 2 / Math.tan(Math.PI / cellCount) + gap);
-  for (let i = 0; i < cells.length; i++) {
-    let cell = cells[i];
-    if (i < cellCount) {
-      // visible cell
-      cell.style.opacity = 1;
-      let cellAngle = theta * i;
-      cell.style.transform =
-        rotateFn + "(" + cellAngle + "deg) translateZ(" + radius + "px)";
-    } else {
-      // hidden cell
-      cell.style.opacity = 0;
-      cell.style.transform = "none";
-    }
-  }
+  carrouselItems.forEach((item, i) => {
+    const degressByItem = degress * i + "deg";
+    item.style.setProperty("--rotatey", degressByItem);
+    item.style.setProperty("--tz", tz + "px");
+  });
+};
 
-  rotateCarousel();
-}
+// Funcion que da suavidad a la animacion
+const lerp = (a, b, n) => {
+  return n * (a - b) + b;
+};
+
+// https://3dtransforms.desandro.com/carousel
+const distanceZ = (widthElement, length, gap) => {
+  return widthElement / 2 / Math.tan(Math.PI / length) + gap; // Distancia Z de los items
+};
+
+// Calcula el alto del contenedor usando el campo de vision y la distancia de la perspectiva
+const calculateHeight = (z) => {
+  const t = Math.atan((90 * Math.PI) / 180 / 2);
+  const height = t * 2 * z;
+
+  return height;
+};
+
+// Calcula el campo de vision del carrousel
+const calculateFov = (carrouselProps) => {
+  const perspective = window
+    .getComputedStyle(containerCarrousel)
+    .perspective.split("px")[0];
+
+  const length =
+    Math.sqrt(carrouselProps.w * carrouselProps.w) +
+    Math.sqrt(carrouselProps.h * carrouselProps.h);
+  const fov = 2 * Math.atan(length / (2 * perspective)) * (180 / Math.PI);
+  return fov;
+};
+
+// Obtiene la posicion X y evalua si la posicion es derecha o izquierda
+const getPosX = (x) => {
+  currentMousePos = x;
+
+  moveTo = currentMousePos < lastMousePos ? moveTo - 2 : moveTo + 2;
+
+  lastMousePos = currentMousePos;
+};
+
+const update = () => {
+  lastMoveTo = lerp(moveTo, lastMoveTo, 0.05);
+  carrousel.style.setProperty("--rotatey", lastMoveTo + "deg");
+
+  requestAnimationFrame(update);
+};
+
+const onResize = () => {
+  // Obtiene la propiedades del tamaño de carrousel
+  const boundingCarrousel = containerCarrousel.getBoundingClientRect();
+
+  const carrouselProps = {
+    w: boundingCarrousel.width,
+    h: boundingCarrousel.height,
+  };
+
+  return carrouselProps;
+};
+
+const initEvents = () => {
+  // Eventos del mouse
+  carrousel.addEventListener("mousedown", () => {
+    isMouseDown = true;
+    carrousel.style.cursor = "grabbing";
+  });
+  carrousel.addEventListener("mouseup", () => {
+    isMouseDown = false;
+    carrousel.style.cursor = "grab";
+  });
+  container.addEventListener("mouseleave", () => (isMouseDown = false));
+
+  carrousel.addEventListener(
+    "mousemove",
+    (e) => isMouseDown && getPosX(e.clientX)
+  );
+
+  // Eventos del touch
+  carrousel.addEventListener("touchstart", () => {
+    isMouseDown = true;
+    carrousel.style.cursor = "grabbing";
+  });
+  carrousel.addEventListener("touchend", () => {
+    isMouseDown = false;
+    carrousel.style.cursor = "grab";
+  });
+  container.addEventListener(
+    "touchmove",
+    (e) => isMouseDown && getPosX(e.touches[0].clientX)
+  );
+
+  window.addEventListener("resize", createCarrousel);
+
+  update();
+  createCarrousel();
+};
+
+initEvents();
