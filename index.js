@@ -12,9 +12,9 @@ let moveTo = 0;
 
 const createCarrousel = () => {
   const carrouselProps = onResize();
-  const length = carrouselItems.length; // Longitud del array
-  const degress = 360 / length; // Grados por cada item
-  const gap = 40; // Espacio entre cada item
+  const length = carrouselItems.length;
+  const degress = 360 / length;
+  const gap = 10;
   const tz = distanceZ(carrouselProps.w, length, gap);
 
   const fov = calculateFov(carrouselProps);
@@ -30,17 +30,15 @@ const createCarrousel = () => {
   });
 };
 
-// Funcion que da suavidad a la animacion
 const lerp = (a, b, n) => {
   return n * (a - b) + b;
 };
 
 // https://3dtransforms.desandro.com/carousel
 const distanceZ = (widthElement, length, gap) => {
-  return widthElement / 2 / Math.tan(Math.PI / length) + gap; // Distancia Z de los items
+  return widthElement / 2 / Math.tan(Math.PI / length) + gap;
 };
 
-// Calcula el alto del contenedor usando el campo de vision y la distancia de la perspectiva
 const calculateHeight = (z) => {
   const t = Math.atan((90 * Math.PI) / 180 / 2);
   const height = t * 2 * z;
@@ -48,7 +46,6 @@ const calculateHeight = (z) => {
   return height;
 };
 
-// Calcula el campo de vision del carrousel
 const calculateFov = (carrouselProps) => {
   const perspective = window
     .getComputedStyle(containerCarrousel)
@@ -61,7 +58,6 @@ const calculateFov = (carrouselProps) => {
   return fov;
 };
 
-// Obtiene la posicion X y evalua si la posicion es derecha o izquierda
 const getPosX = (x) => {
   currentMousePos = x;
 
@@ -78,7 +74,6 @@ const update = () => {
 };
 
 const onResize = () => {
-  // Obtiene la propiedades del tamaño de carrousel
   const boundingCarrousel = containerCarrousel.getBoundingClientRect();
 
   const carrouselProps = {
@@ -90,7 +85,6 @@ const onResize = () => {
 };
 
 const initEvents = () => {
-  // Eventos del mouse
   carrousel.addEventListener("mousedown", () => {
     isMouseDown = true;
     carrousel.style.cursor = "grabbing";
@@ -106,7 +100,6 @@ const initEvents = () => {
     (e) => isMouseDown && getPosX(e.clientX)
   );
 
-  // Eventos del touch
   carrousel.addEventListener("touchstart", () => {
     isMouseDown = true;
     carrousel.style.cursor = "grabbing";

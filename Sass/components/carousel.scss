@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, #0004);
-    
+   
   }
   
   .container-carrousel {
@@ -14,6 +14,12 @@
     transform-style: preserve-3d;
     transform: perspective(1000px);
     transition: 1s ease-in-out;
+    @media (orientation: landscape) {
+      --widthItem: 100px;
+      --heightItem: 150px;
+     
+      
+    }
    
   }
   
@@ -34,6 +40,7 @@
     justify-content: center;
     align-items: center;
     background-size: cover;
+    
   }
   
  
@@ -41,7 +48,8 @@
   .carrousel,
   .carrousel-item {
     width: 100%;
-    height: 100%
+    height: 100%;
+   
   }
   
   .carrousel-item:nth-child(1) {
@@ -79,11 +87,6 @@
     background-image: url(https://icons.iconarchive.com/icons/hopstarter/halloween-avatar/512/Harley-icon.png);
   }
   
-  @media screen and (min-width: 576px) {
-    .container-carrousel {
-    --widthItem: 250px;
-    --heightItem: 200px;
-    }
-  }
+ 
 
 
